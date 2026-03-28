@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoTracker &middot; Market & Créateur</title>
+    <link rel="stylesheet" href="./app.css" />
+    <link rel="stylesheet" href="./market.css" />
+    <style>
+      /* ── TEAM MEMBERS SECTION ─────────────────────────────────── */
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap");
+
+      .team-section {
+        margin: 2.5rem 0;
+        padding: 0;
+      }
+
+      .team-section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+
+      .team-section-header .eyebrow {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #4ade80;
+        margin-bottom: 0.5rem;
+      }
+
+      .team-section-header h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 600;
+        color: #f0fdf4;
+        margin: 0 0 0.75rem;
+      }
+
+      .team-section-header .team-subtitle {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        color: #86efac;
+        max-width: 480px;
+        margin: 0 auto;
+        line-height: 1.6;
+        opacity: 0.85;
+      }
+
+      /* Grid */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 900px) {
+        .team-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Card */
+      .team-card {
+        background: linear-gradient(
+          145deg,
+          rgba(20, 50, 30, 0.85),
+          rgba(10, 30, 18, 0.95)
+        );
+        border: 1px solid rgba(74, 222, 128, 0.15);
+        border-radius: 20px;
+        padding: 2rem 1.5rem 1.75rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 4px 24px rgba(0, 0, 0, 0.3),
+          0 1px 0 rgba(74, 222, 128, 0.08) inset;
+        transition:
+          transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.32s ease,
+          border-color 0.32s ease;
+        cursor: default;
+      }
+
+      .team-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 50% -10%,
+          rgba(74, 222, 128, 0.1) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+
+      .team-card:hover {
+        transform: translateY(-7px) scale(1.015);
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.45),
+          0 0 0 1.5px rgba(74, 222, 128, 0.35);
+        border-color: rgba(74, 222, 128, 0.4);
+      }
+
+      /* Avatar ring */
+      .team-avatar-ring {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        margin: 0 auto 1.1rem;
+        padding: 3px;
+        background: conic-gradient(
+          from 180deg,
+          #4ade80,
+          #a3e635,
+          #facc15,
+          #4ade80
+        );
+        box-shadow:
+          0 0 0 3px rgba(10, 30, 18, 0.9),
+          0 4px 16px rgba(74, 222, 128, 0.3);
+        position: relative;
+        z-index: 1;
+      }
+
+      .team-avatar-inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #0f2d1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .team-avatar-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      /* SVG placeholder avatars */
+      .avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #14532d, #166534);
+        border-radius: 50%;
+        font-family: "DM Sans", sans-serif;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #4ade80;
+        letter-spacing: -0.02em;
+        user-select: none;
+      }
+
+      /* Card text */
+      .team-card-name {
+        font-family: "DM Sans", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f0fdf4;
+        margin: 0 0 0.25rem;
+        letter-spacing: -0.01em;
+      }
+
+      .team-card-role {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #4ade80;
+        margin: 0 0 0.85rem;
+      }
+
+      .team-card-divider {
+        width: 32px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #4ade80, transparent);
+        margin: 0 auto 0.85rem;
+        border-radius: 1px;
+      }
+
+      .team-card-desc {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.845rem;
+        color: #86efac;
+        line-height: 1.55;
+        margin: 0;
+        opacity: 0.82;
+      }
+
+      /* Leaf badge decoration */
+      .team-card-badge {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        font-size: 1rem;
+        opacity: 0.35;
+        transition: opacity 0.3s;
+      }
+
+      .team-card:hover .team-card-badge {
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-row">
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Toggle color mode"
+        >
+          Dark mode
+        </button>
+        <div class="user-points-display">
+          <span id="user-points-balance">2450</span> PTS
+        </div>
+      </div>
+      <h1>EcoMarket & Communauté</h1>
+      <p>Échangez vos points contre des outils réels ou passez Premium.</p>
+    </header>
+
+    <main class="page market-page">
+      <!-- ── TEAM MEMBERS SECTION (new) ────────────────────────── -->
+      <section class="team-section">
+        <div class="team-section-header">
+          <p class="eyebrow">Notre Équipe</p>
+          <h2>Les Artisans d'EcoTracker</h2>
+          <p class="team-subtitle">
+            Une équipe passionnée qui donne vie à chaque fonctionnalité, pixel
+            par pixel.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- Yahya Cherkani -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <img
+                  src="./yahya.png"
+                  alt="Yahya Cherkani"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div class="avatar-placeholder" style="display: none">YC</div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Yahya Cherkani</h3>
+            <p class="team-card-role">Project Manager &amp; Lead Developer</p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Leads the project and manages both frontend and backend
+              development.
+            </p>
+          </div>
+          <!-- Rania Hajoui -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <div
+                  class="avatar-placeholder"
+                  style="background: linear-gradient(135deg, #14532d, #065f46)"
+                >
+                  RH
+                </div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Rania Hajoui</h3>
+            <p class="team-card-role">
+              UI/UX Designer &amp; Data Analyst &amp; Marketing
+            </p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Designs user interfaces and enhances user experience with data
+              insights.
+            </p>
+          </div>
+          <!-- Souad Bouikerone -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <div
+                  class="avatar-placeholder"
+                  style="background: linear-gradient(135deg, #14532d, #065f46)"
+                >
+                  SB
+                </div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Souad Bouykerone</h3>
+            <p class="team-card-role">Designer, Data Analyst &amp; Marketing</p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Contributes to visual design, data preparation, and communication
+              strategy.
+            </p>
+          </div>
+          <!-- Hiba Mohim -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <div
+                  class="avatar-placeholder"
+                  style="background: linear-gradient(135deg, #14532d, #065f46)"
+                >
+                  HM
+                </div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Hiba Mohim</h3>
+            <p class="team-card-role">Marketing &amp; Communication Manager</p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Manages marketing content and promotes the project.
+            </p>
+          </div>
+
+          <!-- Amine Naji -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <img
+                  src="./aminenaji.jpeg"
+                  alt="Amine Naji"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div class="avatar-placeholder" style="display: none">AN</div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Amine Naji</h3>
+            <p class="team-card-role">QA Tester &amp; Frontend Developer</p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Ensures quality, tests the platform, and improves user interface.
+            </p>
+          </div>
+
+          <!-- Sohaib -->
+          <div class="team-card">
+            <span class="team-card-badge">🌿</span>
+            <div class="team-avatar-ring">
+              <div class="team-avatar-inner">
+                <img
+                  src="./souhaib.jpeg"
+                  alt="Amine Naji"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div class="avatar-placeholder" style="display: none">AN</div>
+              </div>
+            </div>
+            <h3 class="team-card-name">Sohayb</h3>
+            <p class="team-card-role">Full Stack Developer</p>
+            <div class="team-card-divider"></div>
+            <p class="team-card-desc">
+              Responsible for developing and optimizing core functionalities.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ── END TEAM SECTION ───────────────────────────────────── -->
+
+      <section class="premium-banner">
+        <div class="premium-content">
+          <h2>Passez à la vitesse supérieure</h2>
+          <p>
+            Débloquez l'IA EcoCoach, doublez vos points et accédez à des outils
+            exclusifs.
+          </p>
+        </div>
+        <div class="premium-action">
+          <p class="price-tag">4.99€ / mois</p>
+          <a href="/premieum.html">
+            <button class="premium-btn">Devenir Premium</button>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Les Outils du Changement</h2>
+        <div class="market-grid" id="market-products-container"></div>
+      </section>
+    </main>
+
+    <nav class="navbar">
+      <a href="./dashboard.html">Home</a>
+      <a href="./scan.html">Scan</a>
+      <a href="./market.html" class="active">Market</a>
+      <a href="./profile.html">Profile</a>
+    </nav>
+
+    <script src="./js/theme.js"></script>
+    <script src="./js/market.js"></script>
+  </body>
+</html>

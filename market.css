@@ -1,0 +1,593 @@
+/* market.css - Styles spécifiques pour la page Market */
+
+/* --- Section Créateur --- */
+.creator-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  /* Utilise une couleur de fond légèrement différente pour ressortir */
+  background: linear-gradient(145deg, var(--surface), var(--surface-alt));
+  border: 1px solid var(--primary-500);
+}
+
+.creator-image-container {
+  flex-shrink: 0;
+}
+
+.creator-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Image ronde */
+  object-fit: cover;
+  border: 3px solid var(--primary-500);
+  padding: 3px; /* Espace entre l'image et la bordure */
+}
+
+.creator-signature {
+  margin-top: 15px;
+  font-weight: 600;
+  color: var(--primary-500);
+  text-align: right;
+}
+
+/* Responsive pour la carte créateur sur mobile */
+@media (max-width: 600px) {
+  .creator-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .creator-signature {
+    text-align: center;
+  }
+}
+
+/* --- Section Premium --- */
+.premium-banner {
+  background: linear-gradient(135deg, var(--accent), #ffb347);
+  border-radius: 22px;
+  padding: 24px;
+  color: var(--primary-900); /* Texte foncé pour le contraste sur fond jaune */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(255, 179, 71, 0.3);
+}
+
+.premium-content h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--primary-900);
+}
+.premium-content p {
+  color: var(--primary-900);
+  opacity: 0.9;
+}
+
+.premium-action {
+  text-align: center;
+}
+
+.price-tag {
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.premium-btn {
+  background: var(--primary-900);
+  color: var(--accent);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.premium-btn:hover {
+  transform: scale(1.05);
+}
+
+/* --- Grille de Produits du Market --- */
+.market-grid {
+  display: grid;
+  gap: 24px;
+  /* Grille responsive qui s'adapte à la taille de l'écran */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  margin-top: 28px;
+}
+
+/* Style d'une carte produit */
+.product-card {
+  background: var(--surface-alt);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  overflow: hidden; /* Pour que l'image ne dépasse pas des coins arrondis */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-500);
+}
+
+.product-image-container {
+  height: 200px;
+  width: 100%;
+  background: var(--surface);
+  position: relative;
+}
+
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* L'image remplit le cadre sans être déformée */
+}
+
+.product-details {
+  padding: 18px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-category {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.product-title {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.product-price {
+  font-weight: 700;
+  color: var(--primary-500);
+  font-size: 1.2rem;
+  margin-top: auto; /* Pousse le prix vers le bas */
+  padding-top: 15px;
+}
+
+.buy-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+.buy-button:hover {
+  opacity: 0.9;
+}
+
+/* Petit affichage des points dans le header */
+.user-points-display {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: bold;
+  color: var(--primary-500);
+}
+/* S'assure que la grille est bien visible */
+.market-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  padding-bottom: 100px; /* Espace pour la barre de navigation */
+}
+
+/* Force l'image à apparaître */
+.product-image-container {
+  height: 180px;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Évite les espaces vides */
+}
+
+/* Badge de catégorie visible */
+.product-category {
+  font-size: 0.7rem;
+  font-weight: bold;
+  background: var(--primary-500);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+/* Container principal */
+.creator-container-pro {
+  padding: 40px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.creator-header .creator-quote {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 15px auto 40px auto;
+  line-height: 1.6;
+}
+
+/* Zone d'affichage des profils */
+.creators-display {
+  display: flex;
+  justify-content: center;
+  gap: 60px; /* Plus d'espace entre les deux */
+  flex-wrap: wrap;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.profile-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Taille des photos agrandie */
+.portrait-wrapper {
+  width: 140px; /* Agrandissement significatif */
+  height: 140px;
+  border-radius: 50%;
+  padding: 5px;
+  background: linear-gradient(135deg, var(--primary-500), var(--accent));
+  margin-bottom: 15px;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  border: 4px solid var(--surface);
+}
+
+/* Typographie des noms */
+.name-tag {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.role-tag {
+  font-size: 0.9rem;
+  color: var(--primary-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Mobile : on réduit légèrement pour les petits écrans */
+@media (max-width: 600px) {
+  .creators-display {
+    gap: 30px;
+  }
+  .portrait-wrapper {
+    width: 110px;
+    height: 110px;
+  }
+}
+/* --- Global & Layout Updates --- */
+:root {
+  /* Ajout de nuances si pas présentes dans app.css */
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.market-page {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* --- Section Créateur (Look "About Us" Moderne) --- */
+.creator-container-pro {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Effet de décor en arrière-plan */
+.creator-container-pro::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: var(--primary-500);
+  filter: blur(80px);
+  opacity: 0.1;
+  border-radius: 50%;
+}
+
+.creator-quote {
+  font-style: italic;
+  position: relative;
+}
+
+.creator-quote::before {
+  content: "“";
+  font-size: 4rem;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  opacity: 0.1;
+  font-family: serif;
+}
+
+/* --- Section Premium (Effet Wow) --- */
+.premium-banner {
+  background: linear-gradient(
+    135deg,
+    #1a1a1a 0%,
+    #2d3436 100%
+  ); /* Fond sombre élégant */
+  border: 2px solid var(--accent);
+  position: relative;
+  overflow: hidden;
+}
+
+/* On change la couleur du texte pour le contraste sur le nouveau fond sombre */
+.premium-banner .premium-content h2,
+.premium-banner .premium-content p,
+.premium-banner .price-tag {
+  color: #ffffff;
+}
+
+.premium-btn {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 179, 71, 0.4);
+  border: none;
+  padding: 14px 28px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* --- Grille de Produits & Cartes --- */
+.market-grid {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding-bottom: 120px;
+}
+
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary-500);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.product-image-container {
+  height: 220px;
+  margin: 10px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.product-category {
+  background: rgba(var(--primary-500-rgb), 0.1); /* Nécessite la valeur RGB */
+  color: var(--primary-500);
+  border: 1px solid var(--primary-500);
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+/* --- Bouton d'achat stylisé --- */
+.buy-button {
+  background: var(--surface-alt);
+  color: var(--text-main);
+  border: 1px solid var(--primary-500);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: color 0.4s ease;
+}
+
+.buy-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: var(--primary-500);
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+.buy-button:hover {
+  color: white;
+}
+
+.buy-button:hover::before {
+  width: 100%;
+}
+
+/* --- Header Stats --- */
+.user-points-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(145deg, var(--surface), var(--surface-alt));
+  border: 1.5px solid var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 179, 71, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 179, 71, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 179, 71, 0);
+  }
+}
+/* --- Section Créateur (Photos Agrandies) --- */
+.creator-container-pro {
+  padding: 60px 20px;
+  background: var(--surface);
+  border-radius: 32px; /* Arrondi plus prononcé */
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.portrait-wrapper {
+  width: 180px; /* Encore plus grand */
+  height: 180px;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--primary-500), var(--accent));
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+/* Effet de zoom sur la photo de profil */
+.profile-box:hover .portrait-wrapper {
+  transform: scale(1.1) rotate(3deg);
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid var(--surface);
+}
+
+/* --- Grille de Produits (Cartes Stylisées) --- */
+.market-grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding-bottom: 120px;
+}
+
+.product-card {
+  background: var(--surface);
+  border-radius: 28px; /* Look très moderne */
+  border: 1px solid var(--border);
+  padding: 12px; /* Espace interne pour l'effet "cadre" */
+  transition: all 0.4s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-500);
+}
+
+/* --- Photo du Produit Agrandie --- */
+.product-image-container {
+  height: 250px; /* Plus haute */
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden; /* Important pour le zoom interne */
+  position: relative;
+  background: #f8f9fa;
+}
+
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease; /* Transition douce pour le zoom */
+}
+
+.product-card:hover .product-image-container img {
+  transform: scale(1.15); /* Zoom de la photo à l'intérieur de la carte */
+}
+
+/* --- Détails & Boutons --- */
+.product-details {
+  padding: 20px 10px;
+}
+
+.product-category {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary-500);
+  background: rgba(var(--primary-500-rgb), 0.1);
+  padding: 6px 14px;
+  border-radius: 99px;
+  margin-bottom: 12px;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.product-price::after {
+  content: "PTS";
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.buy-button {
+  background: var(--primary-900);
+  color: white;
+  border-radius: 16px;
+  padding: 15px;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+/* --- Animation Premium Banner --- */
+.premium-banner {
+  background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+}
+
+.premium-btn {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  border-radius: 18px;
+  background: var(--accent);
+}

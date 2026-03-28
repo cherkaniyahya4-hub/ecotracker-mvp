@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoTracker &middot; Scanners</title>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <header>
+      <div class="top-row">
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Toggle color mode"
+        >
+          Dark mode
+        </button>
+        <a class="logout-link" href="./login.html">Log out</a>
+      </div>
+      <p>Instant guidance</p>
+      <h1>Choose AI waste or barcode product scanning.</h1>
+      <p>Get accurate sorting help and product impact data anywhere.</p>
+    </header>
+
+    <main class="page">
+      <div class="quick-actions">
+        <a class="action-button primary" href="#ai-scan">Start AI waste scan</a>
+        <a class="action-button" href="#barcode-scan">Scan barcode</a>
+        <a class="action-button" href="#scan-history">View history</a>
+      </div>
+
+      <section class="card">
+        <h2>Live camera scan</h2>
+        <p>Visual mockup of the in-app scanner for user guidance.</p>
+        <div class="camera-mock">
+          <div class="camera-icon">📷</div>
+          <p
+            style="
+              text-align: center;
+              color: var(--text-muted);
+              max-width: 260px;
+            "
+          >
+            Point your camera at waste or products to let EcoTracker analyze
+            them in real time.
+          </p>
+          <button type="button">Camera ready</button>
+        </div>
+      </section>
+
+      <section class="card" id="ai-scan">
+        <h2>AI waste scanning</h2>
+        <p>
+          Point your camera at an item and EcoTracker will identify the material
+          plus disposal instructions in seconds.
+        </p>
+        <ul class="list">
+          <li>Plastic tray &middot; rinse & recycle bin</li>
+          <li>Aluminum can &middot; quick scan to log bonus points</li>
+          <li>Organic waste &middot; compost pickup reminder</li>
+        </ul>
+      </section>
+
+      <section class="card" id="barcode-scan">
+        <h2>Product barcode scanner</h2>
+        <p>
+          Scan packaged goods to unlock lifecycle emissions, supply chain
+          transparency, and greener swaps.
+        </p>
+        <ul class="list">
+          <li>
+            Energy bar &middot; 0.75 kg CO2e &middot; local oats alternative
+            available
+          </li>
+          <li>
+            Multi-purpose cleaner &middot; check refill station nearby to reduce
+            plastics
+          </li>
+          <li>Beverage &middot; compare plant-based vs. dairy footprint</li>
+        </ul>
+      </section>
+
+      <section class="card history-card" id="scan-history">
+        <h2>Latest activity</h2>
+        <div class="history-entry">
+          <strong>Yesterday</strong>
+          <p>Plastic tray &middot; rinse & recycle bin.</p>
+        </div>
+        <div class="history-entry">
+          <strong>Yesterday</strong>
+          <p>Coffee grounds &middot; compost pickup scheduled.</p>
+        </div>
+        <div class="history-entry">
+          <strong>2 days ago</strong>
+          <p>Aluminum cans &middot; logged for bonus streak.</p>
+        </div>
+        <div class="history-entry">
+          <strong>2 days ago</strong>
+          <p>Cleaner barcode &middot; refill station recommended.</p>
+        </div>
+      </section>
+
+      <section class="insight-grid">
+        <article class="insight">
+          <h3>Recent scans</h3>
+          <p>14 items logged this week &middot; 100% correctly sorted.</p>
+        </article>
+        <article class="insight">
+          <h3>EcoCoach tip</h3>
+          <p>
+            Scan receipts to auto-calculate basket carbon and unlock plant-based
+            swap ideas.
+          </p>
+        </article>
+        <article class="insight">
+          <h3>Rewards</h3>
+          <p>2 more scans unlocks "Sorting Pro" badge + bonus EcoScore.</p>
+        </article>
+      </section>
+    </main>
+
+    <nav class="navbar">
+      <a href="./dashboard.html">Home</a>
+      <a href="./scan.html" class="active">Scan</a>
+      <a href="./goals.html">Goals</a>
+      <a href="./profile.html">Profile</a>
+    </nav>
+    <script src="./js/app.js"></script>
+    <script src="./js/theme.js"></script>
+  </body>
+</html>

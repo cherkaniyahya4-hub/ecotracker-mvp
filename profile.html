@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoTracker &middot; Profile</title>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <header>
+      <div class="top-row">
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Toggle color mode"
+        >
+          Dark mode
+        </button>
+        <a class="logout-link" href="./login.html">Log out</a>
+      </div>
+      <p>Your plan</p>
+      <h1>Eco profile & community impact</h1>
+      <p>Review habits, connected devices, and local leaderboards.</p>
+    </header>
+
+    <main class="page">
+      <div class="quick-actions">
+        <a class="action-button primary" href="#personal-profile"
+          >Share EcoScore</a
+        >
+        <a class="action-button" href="#edit-profile">Manage devices</a>
+        <a class="action-button" href="#account-controls">View rewards</a>
+      </div>
+
+      <section class="card" id="personal-profile">
+        <h2>Personal profile</h2>
+        <ul class="list">
+          <li>Primary mode: Bike + public transit</li>
+          <li>Favorite eco-goal: Low-waste kitchen</li>
+          <li>Region: Lyon &middot; local recycling rules enabled</li>
+        </ul>
+      </section>
+
+      <section class="card edit-card" id="edit-profile">
+        <h2>Edit profile</h2>
+        <form class="profile-form">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" value="Yahya A." />
+          </div>
+          <div>
+            <label for="city">Home city</label>
+            <input id="city" name="city" type="text" value="Lyon, France" />
+          </div>
+          <div>
+            <label for="mode">Preferred mobility mode</label>
+            <select id="mode" name="mode">
+              <option>Bike + Transit</option>
+              <option>Walking</option>
+              <option>Transit only</option>
+              <option>EV driving</option>
+            </select>
+          </div>
+          <div>
+            <label for="goal">Primary eco-goal</label>
+            <input
+              id="goal"
+              name="goal"
+              type="text"
+              value="Low-waste kitchen"
+            />
+          </div>
+          <button type="submit" class="primary-btn">Save changes</button>
+        </form>
+        <div class="alert success" id="profile-alert" hidden>
+          Profile updated successfully!
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="tile">
+          <h3>Connected accounts</h3>
+          <p>
+            Energy dashboard &middot; Smart thermostat &middot; City bike share.
+          </p>
+        </article>
+        <article class="tile">
+          <h3>Community rank</h3>
+          <p>#4 of 68 neighbors this month.</p>
+        </article>
+        <article class="tile">
+          <h3>Support</h3>
+          <p>Need help? Email support@ecotracker.app anytime.</p>
+        </article>
+      </section>
+
+      <section class="card list-section" id="account-controls">
+        <h2>Account controls</h2>
+        <ul class="list">
+          <li>Carbon offsets &middot; auto-purchase every 500 pts.</li>
+          <li>Data sharing &middot; exporting weekly via email + API.</li>
+          <li>Notifications &middot; quiet hours 22:00-07:00.</li>
+        </ul>
+      </section>
+
+      <section class="insight-grid">
+        <article class="insight">
+          <h3>EcoCoach persona</h3>
+          <p>"Urban Explorer" &middot; strong mobility habits.</p>
+        </article>
+        <article class="insight">
+          <h3>Support status</h3>
+          <p>Next coaching session scheduled Feb 2 &middot; 15:30.</p>
+        </article>
+      </section>
+    </main>
+
+    <nav class="navbar">
+      <a href="./dashboard.html">Home</a>
+      <a href="./scan.html">Scan</a>
+      <a href="./goals.html">Goals</a>
+      <a href="./profile.html" class="active">Profile</a>
+    </nav>
+    <script src="./js/app.js"></script>
+    <script src="./js/theme.js"></script>
+  </body>
+</html>
