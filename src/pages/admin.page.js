@@ -2,10 +2,10 @@ import { requireAuthenticatedUser } from "../services/auth.service.js";
 import {
   createAdminProduct,
   deleteAdminProduct,
-  getAdminDashboardData,
+  getAdminProducts,
   updateAdminProduct,
-  updateAdminUser,
 } from "../services/admin.service.js";
+import { buildSvgPlaceholderDataUrl, resolveDbImageSource } from "../lib/blob-media.js";
 import { initLogoutLinks, initTheme, setMessage } from "./common.js";
 
 const formatNumber = (value) =>
@@ -13,38 +13,49 @@ const formatNumber = (value) =>
     Number(value || 0),
   );
 
-const formatDateTime = (value) => {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-};
-
-const setMetric = (selector, value) => {
-  const element = document.querySelector(selector);
-  if (!element) return;
-  element.textContent = formatNumber(value);
-};
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 
 const messageEl = document.querySelector("#admin-message");
 const productForm = document.querySelector("#admin-product-form");
 const clearProductFormButton = document.querySelector("#clear-product-form");
 const productSubmitButton = document.querySelector("#product-submit-btn");
 
-let adminDataCache = {
-  users: [],
-  products: [],
-};
+let productsCache = [];
 
 const showNotice = (text, type = "success") => {
   if (!messageEl) return;
   setMessage(messageEl, text, type);
+};
+
+const setText = (selector, value) => {
+  const element = document.querySelector(selector);
+  if (!element) return;
+  element.textContent = String(value ?? "");
+};
+
+const fileToPostgresBytea = async (file) => {
+  if (!(file instanceof File) || file.size <= 0) return "";
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  let hex = "\\x";
+  for (const byte of bytes) {
+    hex += byte.toString(16).padStart(2, "0");
+  }
+  return hex;
+};
+
+const fillProfileCard = (profile) => {
+  setText("#admin-profile-name", profile?.full_name || "-");
+  setText("#admin-profile-email", profile?.email || "-");
+  setText("#admin-profile-role", profile?.role || "-");
+  setText("#admin-profile-city", profile?.city || "-");
+  setText("#admin-profile-points", formatNumber(profile?.points || 0));
 };
 
 const clearProductForm = () => {
@@ -53,7 +64,7 @@ const clearProductForm = () => {
   const idField = productForm.querySelector("#product-id");
   if (idField) idField.value = "";
   if (productSubmitButton) {
-    productSubmitButton.textContent = "Create product";
+    productSubmitButton.textContent = "Add market item";
   }
 };
 
@@ -74,74 +85,8 @@ const fillProductForm = (product) => {
   setValue("#product-active", product.is_active ? "true" : "false");
 
   if (productSubmitButton) {
-    productSubmitButton.textContent = "Update product";
+    productSubmitButton.textContent = "Update market item";
   }
-};
-
-const renderUsers = (users) => {
-  const tbody = document.querySelector("#admin-users-body");
-  if (!tbody) return;
-
-  if (!users.length) {
-    tbody.innerHTML = '<tr><td colspan="7">No users yet.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = users
-    .map(
-      (user) => `
-        <tr>
-          <td>${user.full_name || "-"}</td>
-          <td>${user.email || "-"}</td>
-          <td>
-            <select data-user-role-id="${user.id}" class="admin-inline-select">
-              <option value="user" ${user.role === "user" ? "selected" : ""}>user</option>
-              <option value="admin" ${user.role === "admin" ? "selected" : ""}>admin</option>
-            </select>
-          </td>
-          <td>
-            <input
-              class="admin-inline-input"
-              type="number"
-              min="0"
-              value="${Number(user.points || 0)}"
-              data-user-points-id="${user.id}"
-            />
-          </td>
-          <td>${user.city || "-"}</td>
-          <td>${formatDateTime(user.created_at)}</td>
-          <td>
-            <button type="button" class="secondary-btn" data-user-save-id="${user.id}">
-              Save
-            </button>
-          </td>
-        </tr>
-      `,
-    )
-    .join("");
-};
-
-const renderOrders = (orders) => {
-  const tbody = document.querySelector("#admin-orders-body");
-  if (!tbody) return;
-
-  if (!orders.length) {
-    tbody.innerHTML = '<tr><td colspan="4">No orders yet.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = orders
-    .map(
-      (order) => `
-        <tr>
-          <td>${order.customer_name || "-"}</td>
-          <td>${order.product_name || "-"}</td>
-          <td>${formatNumber(order.points_spent)} PTS</td>
-          <td>${formatDateTime(order.created_at)}</td>
-        </tr>
-      `,
-    )
-    .join("");
 };
 
 const renderProducts = (products) => {
@@ -149,16 +94,32 @@ const renderProducts = (products) => {
   if (!tbody) return;
 
   if (!products.length) {
-    tbody.innerHTML = '<tr><td colspan="5">No products found.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6">No market items yet.</td></tr>';
     return;
   }
 
   tbody.innerHTML = products
     .map(
-      (product) => `
+      (product) => {
+        const imageSrc = resolveDbImageSource({
+          blob: product.image_blob,
+          mimeType: product.image_mime_type,
+          url: product.image,
+          fallback: buildSvgPlaceholderDataUrl(product.name || "Eco Item"),
+        });
+
+        return `
         <tr>
-          <td>${product.name}</td>
-          <td>${product.category}</td>
+          <td>${escapeHtml(product.name)}</td>
+          <td>
+            <img
+              class="admin-product-thumb"
+              src="${escapeHtml(imageSrc)}"
+              alt="${escapeHtml(product.name)}"
+              loading="lazy"
+            />
+          </td>
+          <td>${escapeHtml(product.category)}</td>
           <td>${formatNumber(product.points)} PTS</td>
           <td>${product.is_active ? "Active" : "Disabled"}</td>
           <td class="admin-actions">
@@ -170,53 +131,32 @@ const renderProducts = (products) => {
             </button>
           </td>
         </tr>
-      `,
+      `;
+      },
     )
     .join("");
 };
 
 const showUnauthorized = () => {
   const content = document.querySelector("#admin-content");
-
-  if (content) {
-    content.hidden = true;
-  }
-
-  showNotice("Admin access required. Your role is not allowed here.", "error");
+  if (content) content.hidden = true;
+  showNotice("Admin access required.", "error");
+  window.setTimeout(() => {
+    window.location.href = "./dashboard.html";
+  }, 1200);
 };
 
-const refreshAdminData = async (user) => {
-  const generatedAt = document.querySelector("#generated-at");
-  const data = await getAdminDashboardData(user);
+const refreshData = async (user) => {
+  const data = await getAdminProducts(user);
 
   if (!data.authorized) {
     showUnauthorized();
     return false;
   }
 
-  if (messageEl) {
-    messageEl.hidden = true;
-  }
-
-  adminDataCache = {
-    users: data.users || [],
-    products: data.products || [],
-  };
-
-  if (generatedAt) {
-    generatedAt.textContent = data.formatted.generated_at;
-  }
-
-  setMetric("#metric-total-users", data.metrics.total_users);
-  setMetric("#metric-admin-users", data.metrics.admin_users);
-  setMetric("#metric-total-orders", data.metrics.total_orders);
-  setMetric("#metric-total-points-spent", data.metrics.total_points_spent);
-  setMetric("#metric-completed-tasks", data.metrics.completed_tasks);
-  setMetric("#metric-active-products", data.metrics.active_products);
-
-  renderUsers(adminDataCache.users);
-  renderOrders(data.recent_orders || []);
-  renderProducts(adminDataCache.products);
+  fillProfileCard(data.profile);
+  productsCache = data.products || [];
+  renderProducts(productsCache);
   return true;
 };
 
@@ -237,8 +177,20 @@ const attachProductForm = (user) => {
       is_active: String(formData.get("is_active") || "true") === "true",
     };
 
-    if (!payload.name || !payload.category || !payload.description || !payload.image) {
-      showNotice("Please complete all product fields.", "error");
+    const imageFile = formData.get("image_file");
+    const imageBlob = await fileToPostgresBytea(imageFile);
+    if (imageBlob) {
+      payload.image_blob = imageBlob;
+      payload.image_mime_type = imageFile.type || "application/octet-stream";
+    }
+
+    if (!payload.name || !payload.category || !payload.description) {
+      showNotice("Please complete name, category, points and description.", "error");
+      return;
+    }
+
+    if (!payload.image && !payload.image_blob && !productId) {
+      showNotice("Please provide an image URL or upload an image file.", "error");
       return;
     }
 
@@ -252,16 +204,16 @@ const attachProductForm = (user) => {
     try {
       if (productId) {
         await updateAdminProduct(productId, payload);
-        showNotice("Product updated.", "success");
+        showNotice("Market item updated.", "success");
       } else {
         await createAdminProduct(payload);
-        showNotice("Product created.", "success");
+        showNotice("Market item created.", "success");
       }
       clearProductForm();
-      await refreshAdminData(user);
+      await refreshData(user);
     } catch (error) {
-      console.error("Failed to save product:", error);
-      showNotice("Could not save product.", "error");
+      console.error("Failed to save market item:", error);
+      showNotice("Could not save market item.", "error");
     } finally {
       if (productSubmitButton) productSubmitButton.disabled = false;
     }
@@ -269,82 +221,49 @@ const attachProductForm = (user) => {
 };
 
 const attachTableActions = (user) => {
-  const usersTable = document.querySelector("#admin-users-body");
   const productsTable = document.querySelector("#admin-products-body");
 
   if (clearProductFormButton) {
     clearProductFormButton.addEventListener("click", () => {
       clearProductForm();
-      showNotice("Product form cleared.", "success");
+      showNotice("Form reset.", "success");
     });
   }
 
-  if (productsTable) {
-    productsTable.addEventListener("click", async (event) => {
-      const editButton = event.target.closest("[data-product-edit-id]");
-      const deleteButton = event.target.closest("[data-product-delete-id]");
+  if (!productsTable) return;
 
-      if (editButton) {
-        const productId = Number(editButton.dataset.productEditId);
-        const product = adminDataCache.products.find(
-          (item) => Number(item.id) === productId,
-        );
-        if (!product) return;
-        fillProductForm(product);
-        return;
-      }
+  productsTable.addEventListener("click", async (event) => {
+    const editButton = event.target.closest("[data-product-edit-id]");
+    const deleteButton = event.target.closest("[data-product-delete-id]");
 
-      if (!deleteButton) return;
+    if (editButton) {
+      const productId = Number(editButton.dataset.productEditId);
+      const product = productsCache.find((item) => Number(item.id) === productId);
+      if (!product) return;
+      fillProductForm(product);
+      return;
+    }
 
-      const productId = Number(deleteButton.dataset.productDeleteId);
-      if (!Number.isFinite(productId)) return;
+    if (!deleteButton) return;
 
-      const approved = window.confirm(
-        "Delete this product permanently from the catalog?",
-      );
-      if (!approved) return;
+    const productId = Number(deleteButton.dataset.productDeleteId);
+    if (!Number.isFinite(productId)) return;
 
-      deleteButton.disabled = true;
-      try {
-        await deleteAdminProduct(productId);
-        showNotice("Product deleted.", "success");
-        await refreshAdminData(user);
-      } catch (error) {
-        console.error("Failed to delete product:", error);
-        showNotice("Could not delete product.", "error");
-      } finally {
-        deleteButton.disabled = false;
-      }
-    });
-  }
+    const approved = window.confirm("Delete this market item?");
+    if (!approved) return;
 
-  if (usersTable) {
-    usersTable.addEventListener("click", async (event) => {
-      const saveButton = event.target.closest("[data-user-save-id]");
-      if (!saveButton) return;
-
-      const userId = String(saveButton.dataset.userSaveId || "");
-      if (!userId) return;
-
-      const roleInput = usersTable.querySelector(`[data-user-role-id="${userId}"]`);
-      const pointsInput = usersTable.querySelector(`[data-user-points-id="${userId}"]`);
-
-      const role = String(roleInput?.value || "user");
-      const points = Number(pointsInput?.value || 0);
-
-      saveButton.disabled = true;
-      try {
-        await updateAdminUser(userId, { role, points });
-        showNotice("User updated.", "success");
-        await refreshAdminData(user);
-      } catch (error) {
-        console.error("Failed to update user:", error);
-        showNotice("Could not update user.", "error");
-      } finally {
-        saveButton.disabled = false;
-      }
-    });
-  }
+    deleteButton.disabled = true;
+    try {
+      await deleteAdminProduct(productId);
+      showNotice("Market item deleted.", "success");
+      await refreshData(user);
+    } catch (error) {
+      console.error("Failed to delete market item:", error);
+      showNotice("Could not delete market item.", "error");
+    } finally {
+      deleteButton.disabled = false;
+    }
+  });
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -355,14 +274,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = await requireAuthenticatedUser();
     if (!user) return;
 
-    const authorized = await refreshAdminData(user);
+    const authorized = await refreshData(user);
     if (!authorized) return;
 
     clearProductForm();
     attachProductForm(user);
     attachTableActions(user);
   } catch (error) {
-    console.error("Admin dashboard initialization failed:", error);
-    showNotice("Unable to load admin dashboard.", "error");
+    console.error("Admin page failed to load:", error);
+    showNotice("Unable to load admin manager.", "error");
   }
 });

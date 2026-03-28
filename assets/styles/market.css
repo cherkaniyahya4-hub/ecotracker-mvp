@@ -107,6 +107,27 @@
   background: var(--surface-alt);
 }
 
+.market-admin-panel {
+  margin-top: 20px;
+  border: 1px solid rgba(63, 155, 90, 0.28);
+  background:
+    linear-gradient(135deg, rgba(63, 155, 90, 0.12), rgba(255, 211, 107, 0.14)),
+    var(--surface);
+}
+
+.market-admin-eyebrow {
+  color: var(--primary-700);
+}
+
+.market-admin-panel p {
+  max-width: 680px;
+}
+
+.market-admin-cta {
+  margin-top: 14px;
+  display: inline-flex;
+}
+
 /* Style d'une carte produit */
 .product-card {
   background: var(--surface-alt);

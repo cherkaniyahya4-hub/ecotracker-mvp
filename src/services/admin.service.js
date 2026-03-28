@@ -69,7 +69,7 @@ const getSupabaseAdminData = async () => {
       .limit(25),
     client
       .from("market_products")
-      .select("id, name, category, points, description, image, is_active")
+      .select("*")
       .order("created_at", { ascending: false })
       .limit(100),
     client.from("market_orders").select("points_spent"),
@@ -163,15 +163,51 @@ export const getAdminDashboardData = async (user) => {
   };
 };
 
-const normalizeProductPayload = (patch) => ({
-  name: String(patch.name || "").trim(),
-  category: String(patch.category || "").trim(),
-  points: Number(patch.points || 0),
-  description: String(patch.description || "").trim(),
-  image: String(patch.image || "").trim(),
-  is_active:
-    typeof patch.is_active === "boolean" ? patch.is_active : Boolean(patch.is_active),
-});
+export const getAdminProducts = async (user) => {
+  const authz = await assertAdmin(user);
+  if (!authz.authorized) {
+    return authz;
+  }
+
+  const client = ensureSupabaseReady();
+  const { data, error } = await client
+    .from("market_products")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (error) {
+    throw error;
+  }
+
+  return {
+    authorized: true,
+    profile: authz.profile,
+    products: data || [],
+  };
+};
+
+const normalizeProductPayload = (patch) => {
+  const payload = {
+    name: String(patch.name || "").trim(),
+    category: String(patch.category || "").trim(),
+    points: Number(patch.points || 0),
+    description: String(patch.description || "").trim(),
+    image: String(patch.image || "").trim(),
+    is_active:
+      typeof patch.is_active === "boolean" ? patch.is_active : Boolean(patch.is_active),
+  };
+
+  if (typeof patch.image_blob === "string" && patch.image_blob.trim()) {
+    payload.image_blob = patch.image_blob.trim();
+  }
+
+  if (typeof patch.image_mime_type === "string" && patch.image_mime_type.trim()) {
+    payload.image_mime_type = patch.image_mime_type.trim();
+  }
+
+  return payload;
+};
 
 export const createAdminProduct = async (payload) => {
   const client = ensureSupabaseReady();
@@ -180,7 +216,7 @@ export const createAdminProduct = async (payload) => {
   const { data, error } = await client
     .from("market_products")
     .insert(normalized)
-    .select("id, name, category, points, description, image, is_active")
+    .select("*")
     .single();
 
   if (error) throw error;
@@ -195,7 +231,7 @@ export const updateAdminProduct = async (productId, patch) => {
     .from("market_products")
     .update(normalized)
     .eq("id", Number(productId))
-    .select("id, name, category, points, description, image, is_active")
+    .select("*")
     .single();
 
   if (error) throw error;

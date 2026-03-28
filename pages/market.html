@@ -229,6 +229,9 @@
         >
           Dark mode
         </button>
+        <a class="admin-link" id="market-admin-link" href="./admin.html" hidden>
+          Manage products
+        </a>
         <a class="logout-link" href="./login.html">Log out</a>
         <div class="user-points-display">
           <span id="user-points-balance">--</span> PTS
@@ -239,6 +242,16 @@
     </header>
 
     <main class="page market-page">
+      <section class="card market-admin-panel" id="market-admin-panel" hidden>
+        <p class="eyebrow market-admin-eyebrow">Admin tools</p>
+        <h2>Catalog management</h2>
+        <p>
+          You are logged in as admin. Add, edit, and remove product data from the
+          dedicated admin dashboard.
+        </p>
+        <a class="primary-btn market-admin-cta" href="./admin.html">Open Admin Dashboard</a>
+      </section>
+
       <!-- ── TEAM MEMBERS SECTION (new) ────────────────────────── -->
       <section class="team-section">
         <div class="team-section-header">

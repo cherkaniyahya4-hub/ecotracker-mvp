@@ -12,7 +12,7 @@ const defaultProfile = (user) => ({
   city: "Lyon, France",
   preferred_mode: "Bike + Transit",
   primary_goal: "Low-waste kitchen",
-  points: 2450,
+  points: 0,
 });
 
 export const getOrCreateProfile = async (user) => {

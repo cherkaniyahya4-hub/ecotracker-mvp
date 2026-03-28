@@ -1,4 +1,8 @@
 import { ensureSupabaseReady } from "../lib/supabase.js";
+import {
+  buildSvgPlaceholderDataUrl,
+  resolveDbImageSource,
+} from "../lib/blob-media.js";
 
 const asArray = (value) => (Array.isArray(value) ? value : []);
 
@@ -24,6 +28,26 @@ const ensureUserContent = async (client, userId) => {
 export const getDashboardContent = async (userId) => {
   const client = ensureSupabaseReady();
 
+  const loadLeaderboard = async () => {
+    const primary = await client
+      .from("dashboard_leaderboard")
+      .select(
+        "rank, display_name, role_label, score, avatar_url, avatar_blob, avatar_mime_type, is_featured",
+      )
+      .order("score", { ascending: false })
+      .order("rank", { ascending: true });
+
+    if (!primary.error) return primary;
+
+    const fallback = await client
+      .from("dashboard_leaderboard")
+      .select("rank, display_name, role_label, score, avatar_url, is_featured")
+      .order("score", { ascending: false })
+      .order("rank", { ascending: true });
+
+    return fallback.error ? primary : fallback;
+  };
+
   const loadDashboard = async () =>
     Promise.all([
       client
@@ -31,10 +55,7 @@ export const getDashboardContent = async (userId) => {
         .select("*")
         .eq("user_id", userId)
         .maybeSingle(),
-      client
-        .from("dashboard_leaderboard")
-        .select("rank, display_name, role_label, score, avatar_url, is_featured")
-        .order("rank", { ascending: true }),
+      loadLeaderboard(),
     ]);
 
   let [statsResult, leaderboardResult] = await loadDashboard();
@@ -51,6 +72,15 @@ export const getDashboardContent = async (userId) => {
   if (leaderboardResult.error) throw leaderboardResult.error;
 
   const stats = requireRow(statsResult.data, "Dashboard content is missing for this user.");
+  const leaderboard = asArray(leaderboardResult.data).map((row) => ({
+    ...row,
+    avatar_src: resolveDbImageSource({
+      blob: row.avatar_blob,
+      mimeType: row.avatar_mime_type,
+      url: row.avatar_url,
+      fallback: buildSvgPlaceholderDataUrl(row.display_name || "Eco"),
+    }),
+  }));
 
   return {
     ...stats,
@@ -62,7 +92,7 @@ export const getDashboardContent = async (userId) => {
     ai_tiles: asArray(stats.ai_tiles),
     focus_tasks: asArray(stats.focus_tasks),
     weekly_breakdown: asArray(stats.weekly_breakdown),
-    leaderboard: asArray(leaderboardResult.data),
+    leaderboard,
   };
 };
 

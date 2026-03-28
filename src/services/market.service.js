@@ -8,7 +8,7 @@ export const getMarketProducts = async () => {
 
   const { data, error } = await client
     .from(MARKET_PRODUCTS_TABLE)
-    .select("id, name, category, points, description, image")
+    .select("*")
     .order("points", { ascending: true });
 
   if (error) {

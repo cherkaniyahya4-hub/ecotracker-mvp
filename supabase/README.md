@@ -24,6 +24,9 @@ Or run SQL files manually in Supabase SQL editor in this order:
 10. `20260328224500_auto_provision_user_content.sql`
 11. `20260328225500_add_ensure_user_content_rpc.sql`
 12. `20260328230500_cleanup_broken_seed_auth_rows.sql`
+13. `20260328232000_seed_initial_products_and_set_zero_points.sql`
+14. `20260328233000_add_dashboard_eco_market_action.sql`
+15. `20260328234000_store_images_as_blobs_and_sort_leaderboard.sql`
 
 ## Seeded test accounts (development only)
 
@@ -45,6 +48,11 @@ Product catalog and orders are **admin-managed only**:
 - Admin can create/update/delete products from `/pages/admin.html`.
 - Normal users can only read active products and redeem points.
 - Migration `20260328220000_admin_managed_catalog_only.sql` clears old seeded catalog rows so market starts empty until admin inserts products.
+- Migration `20260328232000_seed_initial_products_and_set_zero_points.sql` inserts the initial product list and keeps full CRUD management in admin.
+
+## New user default points
+
+Newly signed-up users now start with `0` points by default (enforced in DB and frontend profile bootstrap).
 
 ## Page content data source
 
@@ -59,6 +67,12 @@ Dashboard, scan, goals, and profile pages read their displayed content from data
 Missing-content protection:
 - Migration `20260328224500_auto_provision_user_content.sql` backfills content for existing profiles and auto-provisions content on future profile inserts.
 - Migration `20260328225500_add_ensure_user_content_rpc.sql` adds `public.ensure_user_content(...)`, used by the frontend to self-heal missing rows and then reload real DB content.
+
+## Leaderboard and image storage updates
+
+- Community League is now sorted by `score` (points collected) descending.
+- Leaderboard avatars are stored as DB blobs (`dashboard_leaderboard.avatar_blob`) with mime metadata.
+- Market item images support DB blobs (`market_products.image_blob`) and admin can upload image files that are stored in DB.
 
 ## Promote a user to admin manually
 

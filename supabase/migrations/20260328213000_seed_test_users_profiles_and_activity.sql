@@ -41,7 +41,7 @@ begin
         'Casablanca, Morocco',
         'Bike + Transit',
         'Scale team impact',
-        5200,
+        0,
         v_now - interval '30 day',
         v_now
       )
@@ -87,7 +87,7 @@ begin
         'Rabat, Morocco',
         'Walking',
         'Reduce plastic waste',
-        2950,
+        0,
         v_now - interval '10 day',
         v_now
       )

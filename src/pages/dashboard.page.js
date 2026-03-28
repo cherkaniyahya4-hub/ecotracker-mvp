@@ -85,13 +85,13 @@ const renderLeaderboard = (leagueName, rows, nextRankText) => {
 
   container.innerHTML = rows
     .map(
-      (row) => `
+      (row, index) => `
         <div class="leader-item ${row.is_featured ? "me" : ""}">
-          <div class="rank-box">${escapeHtml(row.rank)}</div>
+          <div class="rank-box">${escapeHtml(index + 1)}</div>
           <div class="avatar-wrapper">
             ${
-              row.avatar_url
-                ? `<img src="${escapeHtml(row.avatar_url)}" alt="${escapeHtml(row.display_name)}" />`
+              row.avatar_src
+                ? `<img src="${escapeHtml(row.avatar_src)}" alt="${escapeHtml(row.display_name)}" />`
                 : `<div class="avatar-placeholder">${escapeHtml(
                     String(row.display_name || "?")
                       .split(" ")
@@ -119,7 +119,18 @@ const renderQuickActions = (title, actions) => {
 
   if (titleEl) titleEl.textContent = title || "";
 
-  container.innerHTML = actions
+  const safeActions = Array.isArray(actions) ? actions : [];
+  const hasEcoMarket = safeActions.some(
+    (action) =>
+      String(action?.label || "").toLowerCase() === "eco market" ||
+      String(action?.href || "").toLowerCase().includes("market"),
+  );
+
+  const normalizedActions = hasEcoMarket
+    ? safeActions
+    : [{ label: "Eco Market", href: "./market.html" }, ...safeActions];
+
+  container.innerHTML = normalizedActions
     .map(
       (action, index) => `
         <a class="action-button ${index === 0 ? "primary" : ""}" href="${escapeHtml(action.href || "#")}">

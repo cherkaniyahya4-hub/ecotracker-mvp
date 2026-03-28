@@ -4,12 +4,22 @@ import {
   getUserPoints,
   redeemProduct,
 } from "../services/market.service.js";
+import { getOrCreateProfile } from "../services/profile.service.js";
+import { buildSvgPlaceholderDataUrl, resolveDbImageSource } from "../lib/blob-media.js";
 import { initLogoutLinks, initTheme } from "./common.js";
 
 const formatPoints = (value) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
     Number(value || 0),
   );
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 
 const renderProducts = (container, products) => {
   if (!Array.isArray(products) || products.length === 0) {
@@ -19,22 +29,29 @@ const renderProducts = (container, products) => {
   }
 
   container.innerHTML = products
-    .map(
-      (product) => `
+    .map((product) => {
+      const imageSrc = resolveDbImageSource({
+        blob: product.image_blob,
+        mimeType: product.image_mime_type,
+        url: product.image,
+        fallback: buildSvgPlaceholderDataUrl(product.name || "Eco Item"),
+      });
+
+      return `
         <article class="product-card">
           <div class="product-image-container">
-            <img src="${product.image}" alt="${product.name}" loading="lazy" />
+            <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(product.name)}" loading="lazy" />
           </div>
           <div class="product-details">
-            <span class="product-category">${product.category}</span>
-            <h3 class="product-title">${product.name}</h3>
-            <p>${product.description}</p>
+            <span class="product-category">${escapeHtml(product.category)}</span>
+            <h3 class="product-title">${escapeHtml(product.name)}</h3>
+            <p>${escapeHtml(product.description)}</p>
             <div class="product-price">${formatPoints(product.points)} PTS</div>
             <button class="buy-button" data-product-id="${product.id}">Echanger</button>
           </div>
         </article>
-      `,
-    )
+      `;
+    })
     .join("");
 };
 
@@ -48,6 +65,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const pointsElement = document.querySelector("#user-points-balance");
   const productsContainer = document.querySelector("#market-products-container");
+  const adminLink = document.querySelector("#market-admin-link");
+  const adminPanel = document.querySelector("#market-admin-panel");
 
   if (productsContainer === null || pointsElement === null) {
     return;
@@ -56,6 +75,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const user = await requireAuthenticatedUser();
     if (user === null) return;
+
+    const profile = await getOrCreateProfile(user);
+    const isAdmin = String(profile?.role || "user").toLowerCase() === "admin";
+
+    if (adminLink) {
+      adminLink.hidden = !isAdmin;
+    }
+
+    if (adminPanel) {
+      adminPanel.hidden = !isAdmin;
+    }
 
     const [products, points] = await Promise.all([
       getMarketProducts(),
