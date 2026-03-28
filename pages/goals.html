@@ -20,16 +20,12 @@
         <a class="logout-link" href="./login.html">Log out</a>
       </div>
       <p>Weekly rhythm</p>
-      <h1>Keep eco-goals achievable and gamified.</h1>
-      <p>EcoTracker adapts tasks to your habits so progress feels natural.</p>
+      <h1 id="goals-title">Loading goals...</h1>
+      <p id="goals-subtitle"></p>
     </header>
 
     <main class="page">
-      <div class="quick-actions">
-        <a class="action-button primary" href="#focus-areas">Log eco action</a>
-        <a class="action-button" href="#goal-highlights">Browse challenges</a>
-        <a class="action-button" href="#nudges">Invite friends</a>
-      </div>
+      <div class="quick-actions" id="goals-quick-actions"></div>
 
       <section class="card" id="focus-areas">
         <h2>Focus areas</h2>
@@ -37,93 +33,43 @@
           <button class="filter-btn active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="transport">Transport</button>
           <button class="filter-btn" data-filter="energy">Energy</button>
-          <button class="filter-btn" data-filter="consumption">
-            Consumption
-          </button>
+          <button class="filter-btn" data-filter="consumption">Consumption</button>
         </div>
-        <ul class="progress-list">
-          <li class="progress-item" data-category="transport">
-            <strong>Transportation</strong>
-            <p>Replace 2 short trips with walking.</p>
-            <div class="progress-bar"><span style="width: 70%"></span></div>
-          </li>
-          <li class="progress-item" data-category="energy">
-            <strong>Energy</strong>
-            <p>Reduce standby devices during peak hours.</p>
-            <div class="progress-bar"><span style="width: 45%"></span></div>
-          </li>
-          <li class="progress-item" data-category="consumption">
-            <strong>Consumption</strong>
-            <p>Cook 3 plant-focused meals.</p>
-            <div class="progress-bar"><span style="width: 60%"></span></div>
-          </li>
-        </ul>
+        <ul class="progress-list" id="goals-focus-list"></ul>
       </section>
 
       <section class="grid" id="goal-highlights">
         <article class="tile">
           <h3>Current streak</h3>
-          <p>4 consecutive goal weeks completed.</p>
+          <p id="goals-current-streak"></p>
         </article>
         <article class="tile">
           <h3>Badges unlocked</h3>
-          <p>Solar Saver &middot; Waste Warrior &middot; Transit Hero.</p>
+          <p id="goals-badges"></p>
         </article>
         <article class="tile">
           <h3>Upcoming challenge</h3>
-          <p>Neighborhood recycling sprint starts Monday.</p>
+          <p id="goals-upcoming-challenge"></p>
         </article>
       </section>
 
       <section class="card list-section" id="nudges">
         <h2>Upcoming EcoCoach nudges</h2>
-        <ul class="task-list" data-task-list="goals">
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="goal-compost"
-              />
-              <span>Invite 2 friends to co-own a community compost goal.</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="goal-refill"
-              />
-              <span>Schedule a Sunday "refill run" reminder via GPS map.</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="goal-share"
-              />
-              <span
-                >Share your streak recap to the team sustainability
-                channel.</span
-              >
-            </label>
-          </li>
-        </ul>
+        <ul class="task-list" id="goals-nudges-list" data-task-list="goals"></ul>
       </section>
 
       <section class="insight-grid" id="goal-insights">
         <article class="insight">
           <h3>Goal health</h3>
-          <p>84% success probability this week.</p>
+          <p id="goals-health"></p>
         </article>
         <article class="insight">
           <h3>Rewards queue</h3>
-          <p>300 pts away from planting 3 trees via partner NGO.</p>
+          <p id="goals-rewards-queue"></p>
         </article>
       </section>
+
+      <div class="alert error" id="goals-message" hidden></div>
     </main>
 
     <nav class="navbar">
@@ -132,6 +78,7 @@
       <a href="./goals.html" class="active">Goals</a>
       <a href="./profile.html">Profile</a>
     </nav>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../src/config/runtime-config.js"></script>
     <script type="module" src="../src/pages/goals.page.js"></script>

@@ -17,7 +17,7 @@ const redirectAfterLogin = () => {
 const toFriendlyAuthError = (error, mode) => {
   const rawMessage = String(error?.message || "").toLowerCase();
   if (rawMessage.includes("invalid login credentials")) {
-    return "Invalid email or password.";
+    return "Invalid email or password. If this is your first time, click Sign up first.";
   }
 
   if (rawMessage.includes("user already registered")) {

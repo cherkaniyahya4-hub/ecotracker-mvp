@@ -1,14 +1,11 @@
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>EcoTracker &middot; Dashboard</title>
-
     <link rel="stylesheet" href="../assets/styles/app.css" />
   </head>
-
   <body>
     <header>
       <div class="top-row">
@@ -20,101 +17,54 @@
         >
           Dark mode
         </button>
-
         <a class="admin-link" id="admin-link" href="./admin.html" hidden>Admin</a>
         <a class="logout-link" href="./login.html">Log out</a>
       </div>
-
-      <p>Thursday, 9 January</p>
-
-      <h1>Your EcoScore is balanced this week</h1>
-
-      <p>Keep focusing on low-carbon commuting and recycling drops.</p>
+      <p id="dashboard-date">-</p>
+      <h1 id="dashboard-title">Loading dashboard...</h1>
+      <p id="dashboard-subtitle"></p>
     </header>
-<section class="card impact-today">
-  <p class="eyebrow">Today’s impact</p>
-  <h2 class="impact-title">Your eco actions today</h2>
-
-  <div class="impact-grid">
-    <article class="impact-card">
-      <div class="impact-icon">🌍</div>
-      <div class="impact-value">2.4 kg</div>
-      <div class="impact-label">CO₂ saved</div>
-      <p class="impact-desc">≈ 12 km car trip avoided</p>
-    </article>
-
-    <article class="impact-card">
-      <div class="impact-icon">♻️</div>
-      <div class="impact-value">7</div>
-      <div class="impact-label">Items recycled</div>
-      <p class="impact-desc">Plastic & e-waste sorted</p>
-    </article>
-
-    <article class="impact-card">
-      <div class="impact-icon">🚲</div>
-      <div class="impact-value">3</div>
-      <div class="impact-label">Low-carbon trips</div>
-      <p class="impact-desc">Bike & walking sessions</p>
-    </article>
-  </div>
-</section>
-
-</section>
-
-
 
     <main class="page">
+      <section class="card impact-today">
+        <p class="eyebrow">Today's impact</p>
+        <h2>Your eco actions today</h2>
+        <div class="impact-grid" id="impact-cards"></div>
+      </section>
+
       <section class="card hero-card">
         <p class="eyebrow">Current EcoScore</p>
-
-        <div class="eco-score">82</div>
-
-        <p>Excellent progress &mdash; +6 vs. last week.</p>
+        <div class="eco-score" id="dashboard-score">0</div>
+        <p id="dashboard-score-delta"></p>
       </section>
-      <section class="card premium-gps">
+
+      <section class="card premium-gps" id="map">
         <div class="gps-inner">
           <div class="gps-floating-header">
             <div class="status-indicator">
               <span class="pulse-dot"></span>
-              <span class="status-text">Satellite Active</span>
+              <span class="status-text" id="map-status"></span>
             </div>
             <div class="location-search">
-              <input type="text" placeholder="Search eco-points..." readonly />
+              <input type="text" id="map-search-placeholder" readonly />
             </div>
           </div>
-
           <div class="map-viewport">
             <div class="map-grid"></div>
-            <div class="scan-line"></div>
-            <div class="user-node">
-              <div class="node-echo"></div>
-              <div class="node-core"></div>
-            </div>
-
             <div class="eco-node" style="top: 30%; left: 65%">
-              <div class="node-label">Plastic Recycling Center</div>
+              <div class="node-label" id="map-highlight"></div>
             </div>
           </div>
-
           <div class="gps-controls">
             <div class="route-details">
               <div class="detail-icon">📍</div>
               <div class="detail-text">
-                <span class="label">Next drop-off</span>
-                <span class="value">Boulevard Mohamed V, 0.4km</span>
+                <span class="label" id="map-next-dropoff-label"></span>
+                <span class="value" id="map-next-dropoff-value"></span>
               </div>
             </div>
             <button class="btn-navigate">
               <span>Guide Me</span>
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3"
-              >
-                <path d="M5 12h14m-7-7l7 7-7 7" />
-              </svg>
             </button>
           </div>
         </div>
@@ -122,382 +72,68 @@
 
       <section class="card chart-card">
         <h2>EcoScore analytics</h2>
-
         <div class="chart-grid">
           <div class="chart">
             <h3>Weekly EcoScore</h3>
-
-            <div class="chart-bars">
-              <span
-                class="chart-bar"
-                data-label="Mon"
-                style="height: 60%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Tue"
-                style="height: 72%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Wed"
-                style="height: 80%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Thu"
-                style="height: 90%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Fri"
-                style="height: 86%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Sat"
-                style="height: 92%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Sun"
-                style="height: 88%"
-              ></span>
-            </div>
-
-            <p class="chart-line">Streak goal: stay above 80 for 5+ days.</p>
+            <div class="chart-bars" id="weekly-score-bars"></div>
+            <p class="chart-line" id="weekly-score-note"></p>
           </div>
-
           <div class="chart">
             <h3>Emission sources</h3>
-
-            <div class="chart-bars">
-              <span
-                class="chart-bar"
-                data-label="Mob."
-                style="height: 55%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Energy"
-                style="height: 40%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Food"
-                style="height: 65%"
-              ></span>
-
-              <span
-                class="chart-bar"
-                data-label="Goods"
-                style="height: 35%"
-              ></span>
-            </div>
-
-            <p class="chart-line">
-              Mobility is the largest share this week - shift 2 trips to transit
-              to rebalance.
-            </p>
+            <div class="chart-bars" id="emission-bars"></div>
+            <p class="chart-line" id="emission-note"></p>
           </div>
         </div>
-
-        <div class="donut-grid">
-          <article class="donut-card" style="--donut-value: 75%">
-            <div class="donut">75%</div>
-
-            <strong>Goal completion</strong>
-
-            <p>Energy + transport missions almost done.</p>
-          </article>
-
-          <article class="donut-card" style="--donut-value: 62%">
-            <div class="donut">62%</div>
-
-            <strong>Carbon reduction</strong>
-
-            <p>Vs. baseline month. Aim for 70% by Sunday.</p>
-          </article>
-
-          <article class="donut-card" style="--donut-value: 48%">
-            <div class="donut">48%</div>
-
-            <strong>Community streak</strong>
-
-            <p>Neighborhood sprint halfway complete.</p>
-          </article>
-        </div>
-      </section>
-    <section class="card leaderboard-card">
-  <div class="leaderboard-header">
-    <div class="header-text">
-      <h2>Community League</h2>
-      <p>Top performers this week</p>
-    </div>
-    <span class="league-badge gold">Gold League</span>
-  </div>
-
-  <div class="leaderboard-scroll-area">
-    <div class="leader-item me">
-      <div class="rank-box">1</div>
-      <div class="avatar-wrapper">
-        <img src="../assets/images/yahyatof.jpeg" alt="Yahya">
-        <div class="crown-icon">👑</div>
-      </div>
-      <div class="user-meta">
-        <strong>Yahya Cherkani</strong>
-        <span class="status-label">Eco King</span>
-      </div>
-      <div class="score-box">3,120 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">2</div>
-      <div class="avatar-wrapper">
-        <img src="../assets/images/aminenaji.jpeg" alt="Amine">
-        <div class="online-indicator"></div>
-      </div>
-      <div class="user-meta">
-        <strong>Amine Naji</strong>
-        <span class="status-label">Master Recycler</span>
-      </div>
-      <div class="score-box">2,150 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">3</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Sofia">
-      </div>
-      <div class="user-meta">
-        <strong>Sofia Mansouri</strong>
-        <span class="status-label">Pro Biker</span>
-      </div>
-      <div class="score-box">1,980 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">4</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Karim">
-      </div>
-      <div class="user-meta"><strong>Karim Benali</strong></div>
-      <div class="score-box">2,610 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">5</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Inès">
-      </div>
-      <div class="user-meta"><strong>Inès Dridi</strong></div>
-      <div class="score-box">2,400 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">6</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Omar">
-      </div>
-      <div class="user-meta"><strong>Omar Alami</strong></div>
-      <div class="score-box">2,150 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">7</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" alt="Léa">
-      </div>
-      <div class="user-meta"><strong>Léa Tazi</strong></div>
-      <div class="score-box">1,980 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">8</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" alt="Mehdi">
-      </div>
-      <div class="user-meta"><strong>Mehdi H.</strong></div>
-      <div class="score-box">1,750 <span>PTS</span></div>
-    </div>
-
-    <div class="leader-item">
-      <div class="rank-box">9</div>
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" alt="Mehdi">
-      </div>
-      </div>
-      <div class="user-meta"><strong>Sami Yassine</strong></div>
-      <div class="score-box">1,520 <span>PTS</span></div>
-    </div>
-
-    
-  
-</section>
-
-
-        <div class="next-rank-info">
-          <p>Next Rank: <strong>Emerald League</strong> at 3,500 pts</p>
-          <div class="full-progress"><span style="width: 65%"></span></div>
-        </div>
+        <div class="donut-grid" id="donut-grid"></div>
       </section>
 
-      <div class="quick-actions">
-        <a
-          class="action-button"
-          href="./market.html"
-          style="
-            background: linear-gradient(135deg, #ffd36b, #ffb347);
-
-            color: #0d2d1d;
-
-            border: none;
-
-            font-weight: 800;
-
-            transform: scale(1.05);
-
-            box-shadow: 0 10px 20px rgba(255, 211, 107, 0.3);
-          "
-        >
-          💎 Eco Market & AI
-        </a>
-
-        <a class="action-button primary" href="goals.html#focus-areas"
-          >Log eco action</a
-        >
-
-        <a class="action-button" href="./index.html#map">Plan route</a>
-
-        <a class="action-button" href="./scan.html">Open scanners</a>
-      </div>
-
-      <section class="grid">
-        <article class="tile">
-          <h3>AI habit tracking</h3>
-
-          <p>7 eco-positive actions logged today.</p>
-        </article>
-
-        <article class="tile">
-          <h3>Waste recognition</h3>
-
-          <p>3 items scanned &middot; 100% correctly sorted.</p>
-        </article>
-
-        <article class="tile">
-          <h3>Weekly goals</h3>
-
-          <p>2 / 3 missions complete &middot; Energy goal left.</p>
-        </article>
-
-        <article class="tile">
-          <h3>Gamified streak</h3>
-
-          <p>14-day streak &middot; +240 bonus points.</p>
-        </article>
+      <section class="card leaderboard-card">
+        <div class="leaderboard-header">
+          <div class="header-text">
+            <h2>Community League</h2>
+            <p>Top performers this week</p>
+          </div>
+          <span class="league-badge gold" id="league-name"></span>
+        </div>
+        <div class="leaderboard-scroll-area" id="leaderboard-list"></div>
+        <p class="chart-line" id="next-rank"></p>
       </section>
 
       <section class="card">
+        <h2 id="quick-actions-title">Quick actions</h2>
+        <div class="quick-actions" id="quick-actions"></div>
+      </section>
+
+      <section class="grid" id="ai-tiles"></section>
+
+      <section class="card list-section" id="focus">
         <h2>Today's focus</h2>
-
-        <ul class="task-list" data-task-list="dashboard">
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="dash-commute"
-              />
-
-              <span>Bike or walk for at least 40 minutes.</span>
-            </label>
-          </li>
-
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="dash-ewaste"
-              />
-
-              <span>Drop e-waste using the GPS recycling finder.</span>
-            </label>
-          </li>
-
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                class="task-checkbox"
-                data-task-id="dash-scan"
-              />
-
-              <span>Scan two pantry products to get swap advice.</span>
-            </label>
-          </li>
-        </ul>
+        <ul class="task-list" id="dashboard-focus-tasks" data-task-list="dashboard"></ul>
       </section>
 
       <section class="card list-section">
         <h2>Weekly breakdown</h2>
-
-        <ul class="list">
-          <li>Mobility &middot; 46% low-carbon trips &middot; target 50%.</li>
-
-          <li>Energy &middot; Evening peak trimmed by 9% vs. last week.</li>
-
-          <li>
-            Waste &middot; 8 scans sorted &middot; 1 contamination flagged.
-          </li>
-
-          <li>
-            Consumption &middot; 5 barcodes logged &middot; 2 greener swaps
-            adopted.
-          </li>
-        </ul>
+        <ul class="list" id="weekly-breakdown-list"></ul>
       </section>
 
       <section class="insight-grid">
         <article class="insight">
           <h3>Carbon snapshot</h3>
-
-          <p>Footprint intensity 8.4 kg CO2e/day (city avg: 12.2).</p>
+          <p id="carbon-snapshot"></p>
         </article>
-
         <article class="insight">
           <h3>EcoCoach message</h3>
-
-          <p>
-            "Plan a zero-waste pantry scan tonight to unlock the Waste Warrior
-            badge boost."
-          </p>
-        </article>
-
-        <article class="insight">
-          <h3>Community impact</h3>
-
-          <p>You helped neighborhood league reach +230 trees funded.</p>
+          <p id="ecocoach-message"></p>
         </article>
       </section>
+
+      <div class="alert error" id="dashboard-message" hidden></div>
     </main>
 
     <nav class="navbar">
       <a href="./dashboard.html" class="active">Home</a>
-
       <a href="./scan.html">Scan</a>
-
       <a href="./goals.html">Goals</a>
-
       <a href="./profile.html">Profile</a>
     </nav>
 

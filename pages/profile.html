@@ -20,26 +20,16 @@
         <a class="logout-link" href="./login.html">Log out</a>
       </div>
       <p>Your plan</p>
-      <h1>Eco profile & community impact</h1>
-      <p>Review habits, connected devices, and local leaderboards.</p>
+      <h1 id="profile-title">Loading profile...</h1>
+      <p id="profile-subtitle"></p>
     </header>
 
     <main class="page">
-      <div class="quick-actions">
-        <a class="action-button primary" href="#personal-profile"
-          >Share EcoScore</a
-        >
-        <a class="action-button" href="#edit-profile">Manage devices</a>
-        <a class="action-button" href="#account-controls">View rewards</a>
-      </div>
+      <div class="quick-actions" id="profile-quick-actions"></div>
 
       <section class="card" id="personal-profile">
         <h2>Personal profile</h2>
-        <ul class="list">
-          <li>Primary mode: Bike + public transit</li>
-          <li>Favorite eco-goal: Low-waste kitchen</li>
-          <li>Region: Lyon &middot; local recycling rules enabled</li>
-        </ul>
+        <ul class="list" id="profile-personal-items"></ul>
       </section>
 
       <section class="card edit-card" id="edit-profile">
@@ -47,15 +37,16 @@
         <form class="profile-form">
           <div>
             <label for="name">Full name</label>
-            <input id="name" name="name" type="text" value="Yahya A." />
+            <input id="name" name="name" type="text" placeholder="Your name" />
           </div>
           <div>
             <label for="city">Home city</label>
-            <input id="city" name="city" type="text" value="Lyon, France" />
+            <input id="city" name="city" type="text" placeholder="Your city" />
           </div>
           <div>
             <label for="mode">Preferred mobility mode</label>
             <select id="mode" name="mode">
+              <option value="">Select one</option>
               <option>Bike + Transit</option>
               <option>Walking</option>
               <option>Transit only</option>
@@ -64,56 +55,45 @@
           </div>
           <div>
             <label for="goal">Primary eco-goal</label>
-            <input
-              id="goal"
-              name="goal"
-              type="text"
-              value="Low-waste kitchen"
-            />
+            <input id="goal" name="goal" type="text" placeholder="Your eco-goal" />
           </div>
           <button type="submit" class="primary-btn">Save changes</button>
         </form>
-        <div class="alert success" id="profile-alert" hidden>
-          Profile updated successfully!
-        </div>
+        <div class="alert success" id="profile-alert" hidden>Profile updated successfully!</div>
       </section>
 
       <section class="grid">
         <article class="tile">
           <h3>Connected accounts</h3>
-          <p>
-            Energy dashboard &middot; Smart thermostat &middot; City bike share.
-          </p>
+          <p id="profile-connected-accounts"></p>
         </article>
         <article class="tile">
           <h3>Community rank</h3>
-          <p>#4 of 68 neighbors this month.</p>
+          <p id="profile-community-rank"></p>
         </article>
         <article class="tile">
           <h3>Support</h3>
-          <p>Need help? Email support@ecotracker.app anytime.</p>
+          <p id="profile-support-text"></p>
         </article>
       </section>
 
       <section class="card list-section" id="account-controls">
         <h2>Account controls</h2>
-        <ul class="list">
-          <li>Carbon offsets &middot; auto-purchase every 500 pts.</li>
-          <li>Data sharing &middot; exporting weekly via email + API.</li>
-          <li>Notifications &middot; quiet hours 22:00-07:00.</li>
-        </ul>
+        <ul class="list" id="profile-account-controls"></ul>
       </section>
 
       <section class="insight-grid">
         <article class="insight">
           <h3>EcoCoach persona</h3>
-          <p>"Urban Explorer" &middot; strong mobility habits.</p>
+          <p id="profile-persona-text"></p>
         </article>
         <article class="insight">
           <h3>Support status</h3>
-          <p>Next coaching session scheduled Feb 2 &middot; 15:30.</p>
+          <p id="profile-support-status"></p>
         </article>
       </section>
+
+      <div class="alert error" id="profile-message" hidden></div>
     </main>
 
     <nav class="navbar">
