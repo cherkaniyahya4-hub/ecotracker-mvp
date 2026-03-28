@@ -37,7 +37,10 @@
 
 body {
   margin: 0;
-  background: var(--bg-base);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(63, 155, 90, 0.12), transparent 30%),
+    radial-gradient(circle at 92% 100%, rgba(255, 211, 107, 0.14), transparent 28%),
+    var(--bg-base);
   color: var(--text);
   line-height: 1.6;
   font-size: 16px;
@@ -51,6 +54,7 @@ body {
   transition:
     background 0.3s ease,
     color 0.3s ease;
+  position: relative;
 }
 
 img {
@@ -73,36 +77,87 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 14px 20px;
   flex-wrap: wrap;
-  padding: 24px 0 16px;
+  padding: 14px 18px;
+  position: sticky;
+  top: 10px;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--bg-base), transparent 13%);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(15, 34, 27, 0.08);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  text-decoration: none;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--primary-700);
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--primary-500), white 60%),
+    color-mix(in srgb, var(--accent), white 72%)
+  );
+  border: 1px solid color-mix(in srgb, var(--primary-500), transparent 72%);
 }
 
 .logo img {
   width: 40px;
   height: 40px;
+  object-fit: contain;
+}
+
+.logo-text {
+  white-space: nowrap;
 }
 
 .nav-links {
   display: flex;
-  gap: 18px;
+  gap: 8px;
   font-weight: 500;
   color: var(--text-muted);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.nav-links a:hover {
+  background: color-mix(in srgb, var(--primary-500), transparent 86%);
+  border-color: color-mix(in srgb, var(--primary-500), transparent 75%);
+  color: var(--text);
 }
 
 .nav-cta {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .btn {
@@ -113,7 +168,8 @@ a {
   cursor: pointer;
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 .btn-primary {
@@ -136,23 +192,35 @@ a {
 
 .btn:hover {
   transform: translateY(-2px);
+  filter: saturate(1.08);
 }
 
 .theme-toggle {
   border: 1px solid var(--border);
-  background: var(--bg-card);
+  background: color-mix(in srgb, var(--bg-card), transparent 6%);
   color: var(--text);
   border-radius: 999px;
-  padding: 10px 16px;
+  padding: 10px 14px;
+  min-height: 42px;
   font-weight: 600;
   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 34, 27, 0.12);
 }
 
 .hero {
   margin-top: 32px;
   background-image:
-    linear-gradient(135deg, rgba(5, 18, 10, 0.95), rgba(63, 155, 90, 0.8)),
-    url("../images/ecotracker_website_background_1.jpg");
+    radial-gradient(circle at 20% 0%, rgba(215, 255, 114, 0.18), transparent 35%),
+    radial-gradient(circle at 85% 100%, rgba(255, 179, 71, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(5, 18, 10, 0.95), rgba(63, 155, 90, 0.8));
   background-size: cover;
   background-position: center;
   border-radius: var(--radius-lg);
@@ -211,6 +279,7 @@ a {
   border-radius: var(--radius-lg);
   padding: 56px;
   box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border);
 }
 
 .section-header {
@@ -249,6 +318,12 @@ a {
   position: relative;
   overflow: hidden;
   box-shadow: 0 32px 70px rgba(16, 35, 29, 0.12);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 34px 74px rgba(16, 35, 29, 0.16);
 }
 
 .card::after {
@@ -407,8 +482,8 @@ a {
 .map-highlight {
   margin-top: 32px;
   background-image:
-    linear-gradient(rgba(5, 12, 9, 0.92), rgba(5, 12, 9, 0.85)),
-    url("../images/photostudo.jpg");
+    radial-gradient(circle at 15% 0%, rgba(215, 255, 114, 0.12), transparent 30%),
+    linear-gradient(rgba(5, 12, 9, 0.92), rgba(5, 12, 9, 0.85));
   background-size: cover;
   background-position: center;
   border-radius: 28px;
@@ -447,18 +522,25 @@ a {
 }
 
 @media (max-width: 768px) {
+  .page {
+    width: min(1200px, 94vw);
+  }
+
   .nav {
     flex-direction: column;
     align-items: flex-start;
+    top: 8px;
   }
 
   .nav-links {
+    width: 100%;
     flex-wrap: wrap;
     justify-content: flex-start;
   }
 
   .nav-cta {
     align-self: stretch;
+    width: 100%;
     flex-wrap: wrap;
     justify-content: flex-start;
   }
@@ -484,30 +566,7 @@ a {
     transition: none !important;
   }
 }
-/* --- Navigation Sticky Professionnelle --- */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(
-    247,
-    245,
-    239,
-    0.8
-  ); /* Couleur --bg-base avec transparence */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 15px 24px;
-  margin: 0 -24px; /* Pour compenser le padding de .page si besoin */
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-[data-theme="dark"] .nav {
-  background: rgba(1, 8, 4, 0.8);
-}
-
-/* --- Barre de progression de lecture --- */
+/* --- Reading Progress Bar --- */
 .reading-progress {
   position: fixed;
   top: 0;
@@ -553,7 +612,7 @@ a {
   filter: grayscale(0);
 }
 
-/* --- Effet d'apparition au scroll (Reveal) --- */
+/* --- Scroll Reveal --- */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -565,7 +624,7 @@ a {
   transform: translateY(0);
 }
 
-/* --- Amélioration des cartes (Hover 3D) --- */
+/* --- Card Hover --- */
 .card,
 .pillar-card,
 .scan-card {
@@ -580,7 +639,7 @@ a {
   border-color: var(--primary-500);
 }
 
-/* --- Bouton Pulse (Accentuation du CTA) --- */
+/* --- CTA Pulse --- */
 .hero-cta .btn-primary {
   position: relative;
   overflow: visible;

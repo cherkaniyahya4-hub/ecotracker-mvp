@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoTracker · Admin Dashboard</title>
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+  </head>
+  <body>
+    <header>
+      <div class="top-row">
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Toggle color mode"
+        >
+          Dark mode
+        </button>
+        <a class="admin-link" href="./dashboard.html">User dashboard</a>
+        <a class="logout-link" href="./login.html">Log out</a>
+      </div>
+      <p>Operations center</p>
+      <h1>EcoTracker Admin Dashboard</h1>
+      <p>
+        Platform health, user activity, and marketplace metrics in one place.
+      </p>
+    </header>
+
+    <main class="page" id="admin-content">
+      <section class="card">
+        <p class="eyebrow" style="color: var(--text-muted)">Live metrics</p>
+        <h2>Platform Overview</h2>
+        <p style="margin-top: 8px">Last refresh: <span id="generated-at">-</span></p>
+
+        <div class="admin-kpi-grid">
+          <article class="admin-kpi-card">
+            <h3>Total users</h3>
+            <p id="metric-total-users">0</p>
+          </article>
+          <article class="admin-kpi-card">
+            <h3>Admins</h3>
+            <p id="metric-admin-users">0</p>
+          </article>
+          <article class="admin-kpi-card">
+            <h3>Total orders</h3>
+            <p id="metric-total-orders">0</p>
+          </article>
+          <article class="admin-kpi-card">
+            <h3>Points spent</h3>
+            <p id="metric-total-points-spent">0</p>
+          </article>
+          <article class="admin-kpi-card">
+            <h3>Completed tasks</h3>
+            <p id="metric-completed-tasks">0</p>
+          </article>
+          <article class="admin-kpi-card">
+            <h3>Active products</h3>
+            <p id="metric-active-products">0</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>User Management</h2>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Points</th>
+                <th>City</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Recent Redemptions</h2>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Product</th>
+                <th>Points</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="admin-section-head">
+          <h2>Product Catalog</h2>
+          <button type="button" class="secondary-btn" id="clear-product-form">
+            Reset form
+          </button>
+        </div>
+        <form class="admin-form" id="admin-product-form">
+          <input type="hidden" id="product-id" name="product-id" />
+          <div class="admin-form-grid">
+            <label>
+              Product name
+              <input type="text" id="product-name" name="name" required />
+            </label>
+            <label>
+              Category
+              <input type="text" id="product-category" name="category" required />
+            </label>
+            <label>
+              Points
+              <input type="number" id="product-points" name="points" min="1" required />
+            </label>
+            <label>
+              Image URL
+              <input type="url" id="product-image" name="image" required />
+            </label>
+            <label class="admin-form-full">
+              Description
+              <textarea id="product-description" name="description" rows="2" required></textarea>
+            </label>
+            <label>
+              Status
+              <select id="product-active" name="is_active">
+                <option value="true">Active</option>
+                <option value="false">Disabled</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit" class="primary-btn" id="product-submit-btn">
+            Create product
+          </button>
+        </form>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="page">
+      <div class="alert" id="admin-message" hidden></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../src/config/runtime-config.js"></script>
+    <script type="module" src="../src/pages/admin.page.js"></script>
+  </body>
+</html>

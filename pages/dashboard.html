@@ -6,7 +6,7 @@
 
     <title>EcoTracker &middot; Dashboard</title>
 
-    <link rel="stylesheet" href="./app.css" />
+    <link rel="stylesheet" href="../assets/styles/app.css" />
   </head>
 
   <body>
@@ -21,6 +21,7 @@
           Dark mode
         </button>
 
+        <a class="admin-link" id="admin-link" href="./admin.html" hidden>Admin</a>
         <a class="logout-link" href="./login.html">Log out</a>
       </div>
 
@@ -248,7 +249,7 @@
     <div class="leader-item me">
       <div class="rank-box">1</div>
       <div class="avatar-wrapper">
-        <img src="yahyatof.jpeg" alt="Yahya">
+        <img src="../assets/images/yahyatof.jpeg" alt="Yahya">
         <div class="crown-icon">👑</div>
       </div>
       <div class="user-meta">
@@ -261,7 +262,7 @@
     <div class="leader-item">
       <div class="rank-box">2</div>
       <div class="avatar-wrapper">
-        <img src="aminenaji.jpeg" alt="Amine">
+        <img src="../assets/images/aminenaji.jpeg" alt="Amine">
         <div class="online-indicator"></div>
       </div>
       <div class="user-meta">
@@ -500,8 +501,8 @@
       <a href="./profile.html">Profile</a>
     </nav>
 
-    <script src="./js/app.js"></script>
-
-    <script src="./js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../src/config/runtime-config.js"></script>
+    <script type="module" src="../src/pages/dashboard.page.js"></script>
   </body>
 </html>

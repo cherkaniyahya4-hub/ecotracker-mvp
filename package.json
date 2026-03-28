@@ -1,0 +1,13 @@
+{
+  "name": "ecotracker-mvp",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "EcoTracker MVP",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "start": "node dev-server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}

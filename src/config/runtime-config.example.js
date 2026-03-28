@@ -1,0 +1,4 @@
+window.ECOTRACKER_CONFIG = Object.freeze({
+  SUPABASE_URL: "https://YOUR-PROJECT-ID.supabase.co",
+  SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY",
+});

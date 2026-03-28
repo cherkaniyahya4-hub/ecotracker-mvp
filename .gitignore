@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+
+# Supabase local temp metadata
+supabase/.temp/
+supabase/.temp/storage-version
+supabase/.temp/storage-migration
+supabase/.temp/rest-version
+supabase/.temp/project-ref
+supabase/.temp/postgres-version
+supabase/.temp/pooler-url
+supabase/.temp/gotrue-version
+supabase/.temp/cli-latest

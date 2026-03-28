@@ -1,0 +1,8 @@
+-- Deprecated entrypoint.
+-- This project now uses ordered SQL migrations in:
+--   supabase/migrations/
+--
+-- Apply with Supabase CLI:
+--   supabase db push
+--
+-- Or run each migration file manually in order.
