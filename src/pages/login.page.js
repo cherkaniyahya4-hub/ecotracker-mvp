@@ -32,6 +32,13 @@ const toFriendlyAuthError = (error, mode) => {
     return "Network error while contacting Supabase. Please try again.";
   }
 
+  if (
+    rawMessage.includes("database error querying schema") ||
+    rawMessage.includes("database error finding user")
+  ) {
+    return "This account record is broken in Supabase Auth. Run the latest auth cleanup migration, then sign up again.";
+  }
+
   if (rawMessage.includes("supabase_not_configured")) {
     return "Supabase credentials are missing. Configure runtime-config before signing in.";
   }

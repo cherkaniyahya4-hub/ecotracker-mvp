@@ -23,6 +23,7 @@ Or run SQL files manually in Supabase SQL editor in this order:
 9. `20260328223100_seed_dynamic_page_content_data.sql`
 10. `20260328224500_auto_provision_user_content.sql`
 11. `20260328225500_add_ensure_user_content_rpc.sql`
+12. `20260328230500_cleanup_broken_seed_auth_rows.sql`
 
 ## Seeded test accounts (development only)
 
@@ -35,6 +36,8 @@ Or run SQL files manually in Supabase SQL editor in this order:
 
 Create these two accounts once from the app Sign up page, then run `supabase db push`.
 Migration `20260328213000_seed_test_users_profiles_and_activity.sql` will attach profile/task seed data (including admin role for `admin@ecotracker.app`) to existing Auth users.
+
+If login for `admin@ecotracker.app` or `user@ecotracker.app` returns `unexpected_failure` with `Database error querying schema`, apply migration `20260328230500_cleanup_broken_seed_auth_rows.sql`, then re-create those accounts from Sign up.
 
 ## Marketplace data ownership
 
