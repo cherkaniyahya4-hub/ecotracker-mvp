@@ -1,10 +1,6 @@
 {
   "buildCommand": "npm run build || true",
   "outputDirectory": "./",
-  "env": {
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_ANON_KEY": "@supabase_anon_key"
-  },
   "rewrites": [
     { "source": "/login", "destination": "/pages/login.html" },
     { "source": "/dashboard", "destination": "/pages/dashboard.html" },
