@@ -4,6 +4,7 @@
   "type": "module",
   "description": "EcoTracker MVP",
   "scripts": {
+    "build": "node scripts/inject-config.js",
     "dev": "node dev-server.js",
     "start": "node dev-server.js"
   },

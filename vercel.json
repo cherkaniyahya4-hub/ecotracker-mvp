@@ -1,6 +1,6 @@
 {
   "outputDirectory": "./",
-  "rewrites": [
+"rewrites": [
     { "source": "/login", "destination": "/pages/login.html" },
     { "source": "/dashboard", "destination": "/pages/dashboard.html" },
     { "source": "/goals", "destination": "/pages/goals.html" },

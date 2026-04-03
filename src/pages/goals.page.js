@@ -92,6 +92,7 @@ const renderNudges = (nudges) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  await (window.__runtimeConfigReady || Promise.resolve());
   initTheme();
   initLogoutLinks();
 
